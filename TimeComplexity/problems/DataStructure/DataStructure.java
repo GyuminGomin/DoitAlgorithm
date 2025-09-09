@@ -1,6 +1,9 @@
 
+import java.util.HashMap;
+import java.util.Map;
 
-public class ArrayAndList {
+
+public class DataStructure {
   
   /*
    * 1번 문제
@@ -167,7 +170,7 @@ public class ArrayAndList {
       int[][] hapArray2Dimension = new int[N][N];
 
       for (int i=0; i < N; i++) {
-        String NthList = array[2+i];
+        String NthList = array[1+i];
         String[] NthArray = NthList.split(" ");
         for (int j=0; j < N; j++) {
           if (j==0) {
@@ -180,23 +183,23 @@ public class ArrayAndList {
 
       for (int j=0; j < M; j++) {
         int result = 0;
-        String problem = array[2+N-1+j];
-        int x1 = Integer.parseInt(problem.split(" ")[0])-1;
-        int y1 = Integer.parseInt(problem.split(" ")[1])-1;
-        int x2 = Integer.parseInt(problem.split(" ")[2])-1;
-        int y2 = Integer.parseInt(problem.split(" ")[3])-1;
+        String problem = array[1+N+j];
+        int x1 = Integer.parseInt(problem.split(" ")[0])-1; // 1
+        int y1 = Integer.parseInt(problem.split(" ")[1])-1; // 1
+        int x2 = Integer.parseInt(problem.split(" ")[2])-1; // 2
+        int y2 = Integer.parseInt(problem.split(" ")[3])-1; // 3
 
         for (int k=y1;  k <= y2; k++) {
           if (x1 == 0 || x2 == N-1) {
             if (x1 == 0 && x2 == N-1) {
-              result += hapArray2Dimension[N-1][k];
+              result += hapArray2Dimension[k][N-1];
             } else if (x1 == 0) {
-              result += hapArray2Dimension[x2][k];
+              result += hapArray2Dimension[k][x2];
             } else if (x2 == N-1) {
-              result += hapArray2Dimension[N-1][k] - hapArray2Dimension[x1][k];
+              result += hapArray2Dimension[k][N-1] - hapArray2Dimension[k][x1-1];
             }
           } else {
-            result += hapArray2Dimension[N-1][k] - hapArray2Dimension[x2][k] + hapArray2Dimension[x1][k];
+            result += hapArray2Dimension[k][x2] - hapArray2Dimension[k][x1-1];
           }
         }
 
@@ -204,6 +207,75 @@ public class ArrayAndList {
       }
     }
   }
+
+  // TODO 5번 문제 다시 풀기
+  /*
+   * 문제 5
+   * 나머지 합 구하기
+   * N개의 수 A1, A2, ..., An이 주어졌을 때, 연속된 부분의 합이 M으로 나누어떨어지는 구간의 개수를 구하는 프로그램을 작성하시오.
+   * 즉, Ai + ... + Aj(i <= j)의 합이 M으로 나누어떨어지는 (i,j) 쌍의 개수를 구하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 N과 M(1 <= N <= 10^6, 2 <= M <= 10³), 2번째 줄에 N개의 수 A1, A2, ..., An이 주어진다.(0 <= Ai <= 10^9)
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄에 연속된 부분의 합이 M으로 나누어떨어지는 구간의 개수를 출력한다.
+   * ]
+   */
+  public static class RemainderHap {
+
+    private static int probability(int n) {
+      return (n*(n-1)) / 2;
+    }
+
+    private static void remainderHap(String[] array) {
+      String[] NMArray = array[0].split(" ");
+      int N = Integer.parseInt(NMArray[0]);
+      int M = Integer.parseInt(NMArray[1]);
+
+      String[] strNumbers = array[1].split(" ");
+
+      int result = 0;
+
+      // 합배열 생성
+      int[] hapNumbers = new int[N];
+      for (int i=0; i<N; i++) {
+        if (i == 0) {
+          hapNumbers[i] = Integer.parseInt(strNumbers[i]) % M;
+
+          if (hapNumbers[i] % M == 0) result += 1;
+          continue;
+        }
+        hapNumbers[i] = (hapNumbers[i-1] + (Integer.parseInt(strNumbers[i]) % M)) % M;
+
+        if (hapNumbers[i] % M == 0) result += 1;
+      }
+      
+      Map<Integer,Integer> hapMap = new HashMap<>();
+      for (int i=0; i<N; i++) {
+        hapMap.put(hapNumbers[i], hapMap.getOrDefault(hapNumbers[i], 0)+1) ;
+      }
+
+      for (int key : hapMap.keySet()) {
+        result += probability(hapMap.get(key));
+      }
+
+      System.out.println(result);
+    }
+  }
+
+
+  /*
+   * 문제 6
+   * 
+   */
+  public static class TwoPointer {
+    private static void twoPointer(String[] array) {
+
+    }
+  }
+
 
   public static void main(String[] args) {
     
@@ -213,7 +285,9 @@ public class ArrayAndList {
 
     // RangeHap.rangeHap(new String[]{"5 3", "5 4 3 2 1", "1 3", "2 4", "5 5"});
 
-    RangeHap2.rangeHap2(new String[]{"4 3", "1 2 3 4", "2 3 4 5", "3 4 5 6", "4 5 6 7", "2 2 3 4", "3 4 3 4", "1 1 4 4"});
+    // RangeHap2.rangeHap2(new String[]{"4 3", "1 2 3 4", "2 3 4 5", "3 4 5 6", "4 5 6 7", "2 2 3 4", "3 4 3 4", "1 1 4 4"});
+
+    // RemainderHap.remainderHap(new String[]{"5 3", "1 2 3 1 2"});
   }
 }
 
