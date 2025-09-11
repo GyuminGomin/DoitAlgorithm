@@ -374,7 +374,7 @@ public class DataStructure {
    *  좋은 수의 개수를 출력한다.
    * ]
    */
-  public static class TwoPointer3 {
+  public static class TwoPointer3 { // TODO 틀린문제
     private static void twoPointer3(String[] array) {
 
       int result = 0;
@@ -425,6 +425,114 @@ public class DataStructure {
     }
   }
 
+  /*
+   * 문제 9
+   * DNA 비밀번호
+   * 평소 문자열을 이용해 노는 것을 좋아하는 민호는 DNA 문자열을 알게 됐다. DNA 문자열은 모든 문자열에 등장하는 문자가
+   * {'A', 'C', 'G', 'T'}인 문자열을 말한다. 예를 들어 "ACKA"는 DNA 문자열이 아니지만 "ACCA"는 DNA 문자열이다.
+   * 이런 신비한 문자열에 매료된 민호는 임의의 DNA 문자열을 만들고 만들어진 DNA 문자열의 부분 문자열을 비밀번호로 사용하기로 맘먹었다.
+   * 
+   * 하지만 민호는 이 방법에는 큰 문제가 있다는 것을 발견했다. 임의의 DNA 문자열의 부분 문자열을 뽑았을 때 "AAAA"와 같이 보안에 취약한
+   * 비밀번호가 만들어질 수 있기 때문이다. 그래서 민호는 부분 문자열에서 등장하는 문자의 개수가 특정 개수 이상이어야 비밀번호로 사용할 수
+   * 있다는 규칙을 만들었다. 예를 들어 임의의 DNA 문자열이 "AAACCTGCCAA"이고, 민호가 뽑을 부분 문자열의 길이를 4라고 가정해 보자.
+   * 그리고 부분 문자열에 'A'는 1개 이상, 'C'는 1개 이상, 'G'는 1개 이상, 'T'는 0개 이상 등장해야 비밀번호로 사용할 수 있다고 가정해 보자.
+   * 이때 "ACCT"는 "G"가 1개 이상 등장해야 한다는 조건을 만족하지 못해 비밀번호로 사용할 수 없지만, "GCCA"은 모든 조건을 만족하므로 비밀번호로
+   * 사용할 수 있다.
+   * 
+   * 민호가 만든 임의의 DNA 문자열과 비밀번호로 사용할 부분 문자열의 길이 그리고 {'A', 'C', 'G', 'T'}가 각각 몇 번 이상 등장해야 비밀번호로
+   * 사용할 수 있는지, 순서대로 주어졌을 때 민호가 만들 수 있는 비밀번호의 종류의 수를 구하는 프로그램을 작성하시오. 단, 부분 문자열이 등장하는
+   * 위치가 다르면 부분 문자열의 내용이 같더라도 다른 문자열로 취급한다.
+   * 
+   * 입력 [
+   *  1번째 줄에 민호가 임의로 만든 DNA 문자열의 길이 |S|와 비밀번호로 사용할 부분 문자열의 길이 |P|가 주어진다(1 <= |P| <= |S| <= 1000000).
+   *  2번째 줄에 민호가 임의로 만든 DNA 문자열이 주어진다. 3번째 줄에 부분 문자열에 포함돼야 할 {'A','C','G','T'}의 최소 개수가 공백 문자를
+   *  사이에 두고 각각 주어진다. 각각의 수는 |S|보다 작거나 같은 음이 아닌 정수로 총합은 |S|보다 작거나 같다는 것이 보장된다.
+   * ]
+   * 
+   * 출력 [
+   *  좋은 수의 개수를 출력한다.
+   * ]
+   */
+  public static class SlidingWindow {
+    private static void slidingWindow(String[] args) {
+      int result = 0;
+
+      int S = Integer.parseInt(args[0].split(" ")[0]); // 문자열의 길이
+      int P = Integer.parseInt(args[0].split(" ")[1]); // 암호 길이
+
+      int[] ACGT = new int[4]; // answer
+      String[] ACGTAnswer = args[2].split(" ");
+      for (int i=0; i<4; i++) {
+        ACGT[i] = Integer.parseInt(ACGTAnswer[i]); 
+      }
+
+      String[] DNA = args[1].split("");
+      
+      int[] tmpACGT = new int[]{0,0,0,0};
+      int s_idx = 0;
+      int e_idx = P-1;
+      for (int i=0; i<S; i++) {
+        if (i < P) {
+          if (DNA[i].equals("A")) tmpACGT[0] += 1;
+          else if (DNA[i].equals("C")) tmpACGT[1] += 1;
+          else if (DNA[i].equals("G")) tmpACGT[2] += 1;
+          else tmpACGT[3] += 1;
+          if (i == P-1) {
+            if (ACGT[0] <= tmpACGT[0] && 
+            ACGT[1] <= tmpACGT[1] &&
+            ACGT[2] <= tmpACGT[2] &&
+            ACGT[3] <= tmpACGT[3]) result+=1;
+          }
+          continue;
+        } else {
+          
+          if (DNA[s_idx].equals("A")) tmpACGT[0] -= 1;
+          else if (DNA[s_idx].equals("C")) tmpACGT[1] -= 1;
+          else if (DNA[s_idx].equals("G")) tmpACGT[2] -= 1;
+          else tmpACGT[3] -= 1;
+
+          s_idx+=1;
+          e_idx+=1;
+
+          if (DNA[e_idx].equals("A")) tmpACGT[0] += 1;
+          else if (DNA[e_idx].equals("C")) tmpACGT[1] += 1;
+          else if (DNA[e_idx].equals("G")) tmpACGT[2] += 1;
+          else tmpACGT[3] += 1;
+
+          
+          
+        }
+
+        if (ACGT[0] <= tmpACGT[0] && 
+            ACGT[1] <= tmpACGT[1] &&
+            ACGT[2] <= tmpACGT[2] &&
+            ACGT[3] <= tmpACGT[3]) result+=1;
+      }
+
+      System.out.println(result);
+    }
+  }
+
+  /*
+   * 문제 10 최솟값 찾기
+   * N개의 수 Ａ1, Ａ2, ..., Ａn과 L이 주어진다. Ａi-L+1 ~ Ａi 중 최솟값을 Ｄi라고 할 때 Ｄ에 저장된 수를 출력하는 프로그램을 작성하시오.
+   * 이때 i <= 0 인 Ａi는 무시하고 Ｄ를 구해야 한다.
+   * 
+   * 입력 [
+   *  1번째 줄에 N과 L(1 <= L <= N <= 5000000), 2번째 줄에 N개의 수 Ａi가 주어진다. (-10^9 <= Ａi <= 10^9)
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄에 Ｄi를 공백으로 구분해 순서대로 출력한다.
+   * ]
+   */
+  public static class SlidingWindow2 {
+    private static void slidingWindow2(String[] args) {
+      
+    }
+  }
+
+
   public static void main(String[] args) {
     
     // AddNubmer.addNumber(new String[]{"5", "12345"});
@@ -441,7 +549,12 @@ public class DataStructure {
     
     // TwoPointer2.twoPointer2(new String[]{"6", "9", "2 7 4 1 5 3"});
 
-    TwoPointer3.twoPointer3(new String[]{"10", "1 2 3 4 5 6 7 9 8 10"});
+    // TwoPointer3.twoPointer3(new String[]{"10", "1 2 3 4 5 6 7 9 8 10"});
+
+    // SlidingWindow.slidingWindow(new String[]{"9 8", "CCTGGATTG", "2 0 1 1"});
+    // SlidingWindow.slidingWindow(new String[]{"4 2", "GATA", "1 0 0 1"});
+
+    SlidingWindow2.slidingWindow2(new String[]{"12 3", "1 5 2 3 6 2 3 7 3 5 2 6"});
   }
 }
 

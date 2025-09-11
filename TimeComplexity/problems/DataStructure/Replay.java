@@ -76,6 +76,29 @@ public class Replay {
     }
   }
 
+  /*
+   * 문제 8
+   * 주어진 N개의 수에서 다른 두 수의 합으로 표현되는 수가 있다면 그 수를 '좋은 수'라고 한다.
+   * N개의 수 중 좋은 수가 총 몇 개인지 출력하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 수의 개수 N(1 <= N <= 2000), 2번째 줄에 N개의 수의 값(Ai)이 주어진다.
+   * (|Ai| <= 1000000000, Ai는 정수)
+   * ]
+   * 
+   * 출력 [
+   *  좋은 수의 개수를 출력한다.
+   * ]
+   */
+  public static class TwoPointer3 {
+    private static void twoPointer3(String[] array) {
+
+      int result = 0;
+
+      System.out.println(result);
+    }
+  }
+
   public static void main(String[] args) {
    
     // RemainderHap.remainderHap(new String[]{"5 3", "1 2 3 1 2"});
@@ -84,6 +107,6 @@ public class Replay {
     
     // TwoPointer2.twoPointer2(new String[]{"6", "9", "2 7 4 1 5 3"});
 
-    
+    // TwoPointer3.twoPointer3(new String[]{"10", "1 2 3 4 5 6 7 9 8 10"});
   }
 }
