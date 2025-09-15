@@ -526,9 +526,139 @@ public class DataStructure {
    *  1번째 줄에 Ｄi를 공백으로 구분해 순서대로 출력한다.
    * ]
    */
-  public static class SlidingWindow2 {
+  public static class SlidingWindow2 { // TODO 틀림... 이 방법은 TreeMap을 사용해야 함
     private static void slidingWindow2(String[] args) {
+      int min = 5000001;
+
+      int N = Integer.parseInt(args[0].split(" ")[0]);
+      int L = Integer.parseInt(args[0].split(" ")[1]);
+
+      String[] qArrayString = args[1].split(" ");
+      int[] qArray = new int[N];
+      // 값들을 저장
+      Map<Integer, Integer> vals = new HashMap<>();
+      for (int i =0; i < N; i++) {
+        qArray[i] = Integer.parseInt(qArrayString[i]); 
+      }
+      int[] resultArray = new int[N];
+
+      for (int i=0; i < L; i++) {
+        if (qArray[i] <= min) min = qArray[i];
+        resultArray[i] = min;
+        vals.put(qArray[i], vals.getOrDefault(qArray[i], 0)+1);
+      }
+
+      for (int i=L; i<N; i++) {
+        int start = i-L;
+        vals.put(qArray[i], vals.getOrDefault(qArray[i], 0)+1);
+        vals.put(qArray[start], vals.get(qArray[start])-1);
+        if (vals.get(qArray[start]) == 0) {
+          vals.remove(qArray[start]);
+        }
+
+        for (int key : vals.keySet()) {
+          resultArray[i] = key;
+          break;
+        }
+      }
+
+      StringBuilder result = new StringBuilder();
+      for (int i=0; i<N; i++) {
+        if (i == N-1) {
+          result.append(resultArray[i]);
+          break;
+        }
+        result.append(resultArray[i]+ " ");
+      }
+      System.out.println(result.toString());
+    }
+  }
+
+  /*
+   * 문제 11 - 스택으로 오름차순 수열 만들기
+   * 1부터 n까지의 수를 스택에 저장하고 출력하는 방식으로 하나의 수열을 만들 수 있다.
+   * 이때 1부터 오름차순으로 스택에 push한다고가정한다. 수열이 주어졌을 때 이 방식으로 주어진 수열을 만들 수 있는지 확인하고
+   * 만들 수 있다면 어떤 순서로 push와 pop을 수행해야 하는지 확인하는 프로그램을 작성해보자.
+   * 
+   * 입력 [
+   *  1번째 줄에 수열의 개수 n(1 <= n <= 100000)이 주어진다. 2번째 줄에서 n개의 줄에는 수열을 이루는 1이상 n이하의 정수가
+   *  1개씩 순서대로 주어진다. 이때 같은 정수가 두 번 이상 나오지는 않는다.
+   * ]
+   * 
+   * 출력 [
+   *  오름차순 수열을 만들기 위한 연산 순서를 출력한다. push 연산은 +, pop 연산은 -로 출력하고, 불가능할 때는 NO를 출력한다.
+   * ]
+   */
+  public static class Stack { // TODO 개같은 문제다.. 진심 오름차순 문제랑 전혀 관계가 없는 정답이다. 규칙이 뭔지 모르겠다.
+    private static void stack(String[] args) {
       
+    }
+  }
+
+  /*
+   * 문제 12 - 오큰수 구하기
+   * 크기가 N인 수열 A = A1,A2,...,An이 있다. 수열의 각 원소 Ai에 관련된 오큰수 NGE(i)를 구하려고 한다. Ai의 오큰수는
+   * 오른쪽에 있으면서 Ai보다 큰 수 중 가장 왼쪽에 있는 수를 의미한다. 이렇나 수가 없을 때 오큰수는 -1이다. 예를 들어 A = [3, 5, 2, 7]일 때
+   * NGE(1) = 5, NGE(2) = 7, NGE(3) = 7, NGE(4) = -1이다. A[9,5,4,8]일 경우에는 NGE(1) = -1, NGE(2) = 8, NGE(3) = 8, NGE(4) = -1이다.
+   * 
+   * 입력 [
+   *  1번째 줄에 수열 A의 크기 N(1 <= N <= 1000000), 2번째 줄에 수열 A의 원소 A1, A2, ..., An(1 <= Ai <= 1000000)이 주어진다.
+   * ]
+   * 
+   * 출력 [
+   *  총 N개의 수 NGE(1), NGE(2), ..., NGE(N)을 공백으로 구분해 출력한다.
+   * ]
+   */
+  public static class Stack2 {
+    private static void stack2(String[] args) {
+      java.util.Stack<Integer> stack = new java.util.Stack<>();
+      java.util.Stack<Integer> stack2 = new java.util.Stack<>();
+
+      int N = Integer.parseInt(args[0]);
+      String[] qA = args[1].split(" ");
+      int[] A = new int[N];
+      for (int i=0; i<N; i++) {
+        A[i] = Integer.parseInt(qA[i]);
+      }
+
+      for (int i=0; i<N; i++) {
+        stack.add(A[i]);
+      }
+      
+      int[] resultArray = new int[N];
+      for (int i=N-1; i>=0; i--) {
+        if (i == N-1) {
+          resultArray[i] = -1;
+          continue;
+        }
+        int compare = stack.pop();
+        int standard = A[i];
+        stack2.add(compare);
+        if (standard < compare) {
+          resultArray[i] = compare;
+        } else {
+          while (!stack2.isEmpty()) {
+            int compare2 = stack2.peek();
+            if (compare2 <= A[i]) stack2.pop();
+            else {
+              resultArray[i] = compare2;
+              break;
+            }
+          }
+          if (stack2.isEmpty()) resultArray[i] = -1;
+        }
+      }
+
+      StringBuilder result = new StringBuilder();
+      for (int i=0; i<N; i++) {
+        if (i==N-1) {
+          result.append(resultArray[i]);
+          break;
+        }
+        result.append(resultArray[i] + " ");
+      }
+
+      System.out.println(result.toString());
     }
   }
 
@@ -554,7 +684,13 @@ public class DataStructure {
     // SlidingWindow.slidingWindow(new String[]{"9 8", "CCTGGATTG", "2 0 1 1"});
     // SlidingWindow.slidingWindow(new String[]{"4 2", "GATA", "1 0 0 1"});
 
-    SlidingWindow2.slidingWindow2(new String[]{"12 3", "1 5 2 3 6 2 3 7 3 5 2 6"});
+    // SlidingWindow2.slidingWindow2(new String[]{"12 3", "1 5 2 3 6 2 3 7 3 5 2 6"});
+
+    // Stack.stack(new String[]{"8", "4", "3", "6", "8", "7", "5", "2", "1"});
+    // Stack.stack(new String[]{"5", "1", "2", "5", "3", "4"});
+
+    Stack2.stack2(new String[]{"4", "3 5 2 7"});
+    Stack2.stack2(new String[]{"4", "9 5 4 8"});
   }
 }
 

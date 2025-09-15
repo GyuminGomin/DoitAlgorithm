@@ -1,3 +1,4 @@
+
 public class Replay {
   
   /*
@@ -99,6 +100,45 @@ public class Replay {
     }
   }
 
+  /*
+   * 문제 10 최솟값 찾기
+   * N개의 수 Ａ1, Ａ2, ..., Ａn과 L이 주어진다. Ａi-L+1 ~ Ａi 중 최솟값을 Ｄi라고 할 때 Ｄ에 저장된 수를 출력하는 프로그램을 작성하시오.
+   * 이때 i <= 0 인 Ａi는 무시하고 Ｄ를 구해야 한다.
+   * 
+   * 입력 [
+   *  1번째 줄에 N과 L(1 <= L <= N <= 5000000), 2번째 줄에 N개의 수 Ａi가 주어진다. (-10^9 <= Ａi <= 10^9)
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄에 Ｄi를 공백으로 구분해 순서대로 출력한다.
+   * ]
+   */
+  public static class SlidingWindow2 {
+    private static void slidingWindow2(String[] args) {
+      
+    }
+  }
+
+  /*
+   * 문제 12 - 오큰수 구하기
+   * 크기가 N인 수열 A = A1,A2,...,An이 있다. 수열의 각 원소 Ai에 관련된 오큰수 NGE(i)를 구하려고 한다. Ai의 오큰수는
+   * 오른쪽에 있으면서 Ai보다 큰 수 중 가장 왼쪽에 있는 수를 의미한다. 이렇나 수가 없을 때 오큰수는 -1이다. 예를 들어 A = [3, 5, 2, 7]일 때
+   * NGE(1) = 5, NGE(2) = 7, NGE(3) = 7, NGE(4) = -1이다. A[9,5,4,8]일 경우에는 NGE(1) = -1, NGE(2) = 8, NGE(3) = 8, NGE(4) = -1이다.
+   * 
+   * 입력 [
+   *  1번째 줄에 수열 A의 크기 N(1 <= N <= 1000000), 2번째 줄에 수열 A의 원소 A1, A2, ..., An(1 <= Ai <= 1000000)이 주어진다.
+   * ]
+   * 
+   * 출력 [
+   *  총 N개의 수 NGE(1), NGE(2), ..., NGE(N)을 공백으로 구분해 출력한다.
+   * ]
+   */
+  public static class Stack2 {
+    private static void stack2(String[] args) {
+      
+    }
+  }
+
   public static void main(String[] args) {
    
     // RemainderHap.remainderHap(new String[]{"5 3", "1 2 3 1 2"});
@@ -108,5 +148,10 @@ public class Replay {
     // TwoPointer2.twoPointer2(new String[]{"6", "9", "2 7 4 1 5 3"});
 
     // TwoPointer3.twoPointer3(new String[]{"10", "1 2 3 4 5 6 7 9 8 10"});
+
+    // SlidingWindow2.slidingWindow2(new String[]{"12 3", "1 5 2 3 6 2 3 7 3 5 2 6"});
+
+    Stack2.stack2(new String[]{"4", "3 5 2 7"});
+    Stack2.stack2(new String[]{"4", "9 5 4 8"});
   }
 }
