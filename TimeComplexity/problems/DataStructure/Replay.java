@@ -139,6 +139,30 @@ public class Replay {
     }
   }
 
+   /*
+   * 문제 14 - 절댓값 힙 구현하기
+   * 절댓값 힙은 다음과 같은 연산을 지원하는 자료구조다.
+   * 1. 배열에 정수 x(x ≠ 0)을 넣는다.
+   * 2. 배열에서 절댓값이 가장 작은 값을 출력한 후 그 값을 배열에서 제거한다. 절댓값이 가장 작은 값이 여러개일 경우에는
+   * 그중 가장 작은 수를 출력하고, 그 값을 배열에서 제거한다.
+   * 
+   * 프로그램은 처음에 비어 있는 배열에서 시작한다. 절댓값 힙을 구현하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 연산의 개수 N(1 <= N <= 100000)이 주어진다. 다음 N개의 줄에는 연산과 관련된 정보를 나타내는 정수 x가 주어진다.
+   *  만약 x가 0이 아니라면 배열에 x라는 값을 추가하고, x가 0이라면 배열에서 절댓값이 가장 작은 값을 출력하고, 그 값을 배열에서 제거한다.
+   *  입력되는 정수는 -2^31 보다 크고, 2^31 보다 작다.
+   * ]
+   * 
+   * 출력 [
+   *  입력에서 0이 주어진 횟수만큼 답을 출력한다. 만약 배열이 비어 있는데 절댓값이 가장 작은 값을 출력하라고 할 때는 0을 출력하면 된다.
+   * ]
+   */
+  public static class Queue2 { // TODO -> 참신하다. PriorityQueue 방식으로도 한번 풀어보자
+    private static void queue2(String[] args) {
+    }
+  }
+
   public static void main(String[] args) {
    
     // RemainderHap.remainderHap(new String[]{"5 3", "1 2 3 1 2"});
@@ -151,7 +175,7 @@ public class Replay {
 
     // SlidingWindow2.slidingWindow2(new String[]{"12 3", "1 5 2 3 6 2 3 7 3 5 2 6"});
 
-    Stack2.stack2(new String[]{"4", "3 5 2 7"});
-    Stack2.stack2(new String[]{"4", "9 5 4 8"});
+    // Stack2.stack2(new String[]{"4", "3 5 2 7"});
+    // Stack2.stack2(new String[]{"4", "9 5 4 8"});
   }
 }

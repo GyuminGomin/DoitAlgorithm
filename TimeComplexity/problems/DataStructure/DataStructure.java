@@ -1,7 +1,10 @@
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class DataStructure {
@@ -662,6 +665,115 @@ public class DataStructure {
     }
   }
 
+  /*
+   * 문제 13 - 카드 게임
+   * N장의 카드가 있다. 각각의 카드는 차례로 1에서 N까지의 번호가 붙어 있으며, 1번 카드가 가장 위, N번 카드가 가장 아래인 상태로 놓여 있다.
+   * 이제 다음과 같은 동작을 카드가 1장 남을 때까지 반복한다.
+   * 먼저 가장 위에 있는 카드를 바닥에 버린다. 그다음 가장 위에 있는 카드를 가장 아래에 있는 카드 밑으로 옮긴다. 예를 들어 N = 4일 때를 생각해 보자.
+   * 카드는 가장 위에서부터 1,2,3,4의 순서대로 놓여 있다. 1을 버리면 2,3,4가 남는다. 여기서 2를 가장 아래로 옮기면 순서가 3, 4, 2가 된다.
+   * 3을 버리면 4,2가 남고, 4를 밑으로 옮기면 순서가 2,4가 된다. 마지막으로 2를 버리면 카드 4가 남는다. N이 주어졌을 때 가장 마지막에 남는 카드를 구하는 프로그램을 작성하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 정수 N(1 <= N <= 500000)이 주어진다.
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄에 남는 카드의 번호를 출력한다.
+   * ]
+   */
+  public static class Queue1 {
+    private static void queue1(int N) {
+      Deque<Integer> deque = new ArrayDeque<>();
+
+      if (N%2 == 0) {
+        for (int i=2; i<=N; i+=2) {
+          deque.addLast(i);
+        }
+      } else {
+        for (int i=4; i<=N; i+=2) {
+          deque.addLast(i);
+        }
+        deque.addFirst(2);
+      }
+
+      int size = deque.size();
+      for (int i=0; i<size-1; i++) {
+        deque.removeLast();
+        deque.addFirst(deque.removeLast());
+      }
+
+      System.out.println(deque.removeLast());
+    }
+  }
+
+  /*
+   * 문제 14 - 절댓값 힙 구현하기
+   * 절댓값 힙은 다음과 같은 연산을 지원하는 자료구조다.
+   * 1. 배열에 정수 x(x ≠ 0)을 넣는다.
+   * 2. 배열에서 절댓값이 가장 작은 값을 출력한 후 그 값을 배열에서 제거한다. 절댓값이 가장 작은 값이 여러개일 경우에는
+   * 그중 가장 작은 수를 출력하고, 그 값을 배열에서 제거한다.
+   * 
+   * 프로그램은 처음에 비어 있는 배열에서 시작한다. 절댓값 힙을 구현하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 연산의 개수 N(1 <= N <= 100000)이 주어진다. 다음 N개의 줄에는 연산과 관련된 정보를 나타내는 정수 x가 주어진다.
+   *  만약 x가 0이 아니라면 배열에 x라는 값을 추가하고, x가 0이라면 배열에서 절댓값이 가장 작은 값을 출력하고, 그 값을 배열에서 제거한다.
+   *  입력되는 정수는 -2^31 보다 크고, 2^31 보다 작다.
+   * ]
+   * 
+   * 출력 [
+   *  입력에서 0이 주어진 횟수만큼 답을 출력한다. 만약 배열이 비어 있는데 절댓값이 가장 작은 값을 출력하라고 할 때는 0을 출력하면 된다.
+   * ]
+   */
+  public static class Queue2 {
+    private static void queue2(String[] args) {
+      TreeMap<Integer, int[]> map = new TreeMap<>();
+      
+      int N = Integer.parseInt(args[0]);
+      StringBuilder result = new StringBuilder();
+      for (int i=1; i<=N; i++) {
+        int val = Integer.parseInt(args[i]);
+        if (val == 0) {
+          if (map.size() == 0) {
+            result.append(0+" ");
+          } else {
+            // 키의 제일 첫번째값이 가장 작은 값
+            int removeTarget = 0;
+            // Map.Entry<Integer, int[]> kEntry = map.firstEntry();
+            // kEntry.getKey();
+            // kEntry.getValue();
+            for (int key : map.keySet()) { // TODO -> 이 방식 말고 위 방식을 사용할 수 있다. TreeMap은 위를 지원해줌
+              int[] tmp = map.get(key);
+              if (tmp[0] != 0) {
+                tmp[0] -= 1;
+                result.append(-key+" ");
+                removeTarget = key;
+                break;
+              } else {
+                tmp[1] -= 1;
+                result.append(key+" ");
+                removeTarget = key;
+                break;
+              }
+            }
+            if(map.get(removeTarget)[0] == 0 && map.get(removeTarget)[1] == 0) {
+              map.remove(removeTarget);
+            }
+          }
+        } else {
+          int absVal = Math.abs(val);
+          int[] tmp = new int[2];
+          tmp = map.getOrDefault(absVal, new int[]{0, 0});
+          if (val < 0) tmp[0] += 1;
+          else tmp[1] += 1;
+          map.put(absVal, tmp);
+        }
+      }
+
+      System.out.println(result.toString());
+    }
+  }
+
 
   public static void main(String[] args) {
     
@@ -689,8 +801,12 @@ public class DataStructure {
     // Stack.stack(new String[]{"8", "4", "3", "6", "8", "7", "5", "2", "1"});
     // Stack.stack(new String[]{"5", "1", "2", "5", "3", "4"});
 
-    Stack2.stack2(new String[]{"4", "3 5 2 7"});
-    Stack2.stack2(new String[]{"4", "9 5 4 8"});
+    // Stack2.stack2(new String[]{"4", "3 5 2 7"});
+    // Stack2.stack2(new String[]{"4", "9 5 4 8"});
+
+    // Queue1.queue1(6);
+
+    Queue2.queue2(new String[]{"18", "1", "-1", "0", "0", "0", "1", "1", "-1", "-1", "2", "-2", "0", "0", "0", "0", "0", "0", "0"});
   }
 }
 
