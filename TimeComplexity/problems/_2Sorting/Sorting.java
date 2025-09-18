@@ -1,7 +1,5 @@
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /* 15부터 시작인데, 1로 지정 */
 public class Sorting {
@@ -180,31 +178,90 @@ public class Sorting {
   public static class InsertSorting {
     private static void insertSorting(String[] args) {
       int N = Integer.parseInt(args[0]);
-      String[] qA = args[1].split(" ");
-
-      List<Integer> iqA = new ArrayList<>();
+      
+      int[] A1 = new int[N];
 
       for (int i=0; i<N; i++) {
-        iqA.add(Integer.parseInt(qA[i]));
+        A1[i] = Integer.parseInt(args[1].split(" ")[i]);
       }
+    }
+  }
 
-      if (iqA.get(0) > iqA.get(1)) {
-        int tmp = iqA.get(1);
-        iqA.remove(1);
-        iqA.add(0, tmp);
+  /*
+   * 문제5 - K번째 수 구하기
+   * 수 N개(A1, A2, ..., An)가 주어진다. A를 오름차순 정렬했을 때 앞에서부터 K번째에 있는 수를 구하는 프로그램을 작성하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 N(1 <= N <= 5000000)과 K(1 <= K <= N), 2번째 줄에 A1, A2, ..., An이 주어진다. (-10^9 <= Ai <= 10^9)
+   * ]
+   * 
+   * 출력 [
+   *  A를 정렬했을 때 앞에서부터 K번째에 있는 수를 출력한다.
+   * ]
+   */
+  public static class QuickSorting {
+    private static void quickSorting(String[] args) {
+      
+    }
+  }
+
+  /*
+   * 문제6 - 수 정렬하기 2
+   * N개의 수가 주어졌을 때 이를 오름차순 정렬하는 프로그램을 작성하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 수의 개수 N(1 <= N <= 1000000), 2번째 줄부터 N개의 줄에 숫자가 주어진다. 이 수는 절댓값이 1000000보다 작거나 같은 정수다.
+   *  수는 중복되지 않는다.
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄부터 N개의 줄에 오름차순 정렬한 결과를 1줄에 1개씩 출력한다.
+   * ]
+   */
+  public static class MergeSorting {
+
+    private static int[] A, tmp;
+    private static long result;
+
+    private static void merge(int s, int e) {
+      if (e - s < 1) {
+        return;
       }
-
-      for (int i=2; i<N; i++) {
-        for (int j=0; j<i; i++) {
-          if (iqA.get(i) < iqA.get(j)) {
-            int tmp = iqA.get(i);
-            iqA.remove(i);
-            iqA.add(j, tmp);
-          }
+      int m = s + (e-s) / 2;
+      
+      merge(s, m);
+      merge(m+1, e);
+      for (int i=s; i <= e; i++) {
+        tmp[i] = A[i];
+      }
+      int k = s;
+      int index1 = s;
+      int index2 = m + 1;
+      while (index1 <= m && index2 <= e) {
+        if (tmp[index1] > tmp[index2]) {
+          A[k] = tmp[index2];
+          k++;
+          index2++;
+        } else {
+          A[k] = tmp[index1];
+          k++;
+          index1++;
         }
       }
+      while (index1 <= m) {
+        A[k] = tmp[index1];
+        k++;
+        index1++;
+      }
+      while (index2 <= e) {
+        A[k] = tmp[index2];
+        k++;
+        index2++;
+      }
+    }
 
-      // 합배열 구해서 전체 합 구하면 끝
+    private static void mergeSorting(String[] args) {
+      
     }
   }
 
@@ -216,6 +273,10 @@ public class Sorting {
 
     // SelectSorting.selectSoring("2143");
 
-    InsertSorting.insertSorting(new String[]{"5", "3 1 4 3 2"});
+    // InsertSorting.insertSorting(new String[]{"5", "3 1 4 3 2"});
+
+    // QuickSorting.quickSorting(new String[]{"5 2", "4 1 2 3 5"});
+
+    MergeSorting.mergeSorting(new String[]{"5", "5", "4", "3", "2", "1"});
   }
 }
