@@ -176,14 +176,40 @@ public class Sorting {
    * ]
    */
   public static class InsertSorting {
+
+    private static void change(int[] A, int i, int j) {
+      int tmp = A[i];
+      A[i] = A[j];
+      A[j] = tmp;
+    }
+
     private static void insertSorting(String[] args) {
       int N = Integer.parseInt(args[0]);
       
       int[] A1 = new int[N];
-
-      for (int i=0; i<N; i++) {
+      for (int i=0; i < N; i++) {
         A1[i] = Integer.parseInt(args[1].split(" ")[i]);
       }
+
+      for (int i=1; i < N; i++) {
+        for (int j=i; j>0; j--) {
+          if (A1[j] > A1[j-1]) {
+            break;
+          } else {
+            change(A1, j, j-1);
+          }
+        }
+      }
+
+      int result = 0;
+      for (int i=0; i < N; i++) {
+        if (i == 0) { result += A1[i]; }
+        else {
+          A1[i] = A1[i] + A1[i-1];
+          result += A1[i];
+        }
+      }
+      System.out.println(result);
     }
   }
 
@@ -219,49 +245,8 @@ public class Sorting {
    * ]
    */
   public static class MergeSorting {
-
-    private static int[] A, tmp;
-    private static long result;
-
-    private static void merge(int s, int e) {
-      if (e - s < 1) {
-        return;
-      }
-      int m = s + (e-s) / 2;
-      
-      merge(s, m);
-      merge(m+1, e);
-      for (int i=s; i <= e; i++) {
-        tmp[i] = A[i];
-      }
-      int k = s;
-      int index1 = s;
-      int index2 = m + 1;
-      while (index1 <= m && index2 <= e) {
-        if (tmp[index1] > tmp[index2]) {
-          A[k] = tmp[index2];
-          k++;
-          index2++;
-        } else {
-          A[k] = tmp[index1];
-          k++;
-          index1++;
-        }
-      }
-      while (index1 <= m) {
-        A[k] = tmp[index1];
-        k++;
-        index1++;
-      }
-      while (index2 <= e) {
-        A[k] = tmp[index2];
-        k++;
-        index2++;
-      }
-    }
-
     private static void mergeSorting(String[] args) {
-      
+
     }
   }
 
@@ -275,8 +260,8 @@ public class Sorting {
 
     // InsertSorting.insertSorting(new String[]{"5", "3 1 4 3 2"});
 
-    // QuickSorting.quickSorting(new String[]{"5 2", "4 1 2 3 5"});
+    QuickSorting.quickSorting(new String[]{"5 2", "4 1 2 3 5"});
 
-    MergeSorting.mergeSorting(new String[]{"5", "5", "4", "3", "2", "1"});
+    // MergeSorting.mergeSorting(new String[]{"5", "5", "4", "3", "2", "1"});
   }
 }
