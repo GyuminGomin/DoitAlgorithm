@@ -313,8 +313,28 @@ public class Sorting {
       int[] A = new int[n];
 
       for (int i=0; i < n; i++) {
-        
+
       }
+    }
+  }
+
+  /*
+   * 문제 8 - 수 정렬하기 3
+   * N개의 수가 주어졌을 때 이를 오름차순 정렬하는 프로그램을 작성하시오.
+   * 
+   * 입력 [
+   *  1번째 줄에 수의 개수 N (1 <= N <= 10,000,000), 2번째 줄부터 N개의 줄에 숫자가 주어진다.
+   *  이 수는 10,000보다 작거나 같은 자연수다.
+   * ]
+   * 
+   * 출력 [
+   *  1번째 줄부터 N개의 줄에 오름차순 정렬한 결과를 1줄에 1개씩 출력한다.
+   * ]
+   */
+  public static class RadixSorting {
+
+    private static void radixSorting(String[] args) {
+
     }
   }
 
@@ -332,6 +352,8 @@ public class Sorting {
 
     // MergeSorting.mergeSorting(new String[]{"5", "5", "4", "3", "2", "1"});
 
-    MergeSorting2.mergeSorting2(new String[]{"8", "3 2 8 1 7 4 5 6"});
+    // MergeSorting2.mergeSorting2(new String[]{"8", "3 2 8 1 7 4 5 6"});
+
+    RadixSorting.radixSorting(new String[]{"11", "215", "15", "344", "372", "294", "100", "8", "145", "24", "198", "831"});
   }
 }
