@@ -327,7 +327,9 @@ public class Searching {
    */
   private static class BINARYSEARCH3 {
     private static void binarySearch3(String[] args) {
-
+      // x, y
+      // 7 / 3 = 2
+      // 7 % 3 = 1
     }
   }
 
